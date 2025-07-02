@@ -1,5 +1,6 @@
-import { useState } from "react"
+import { useState } from "react";
 
+// ==== PROTEÍNAS ====
 const alimentosProteicos = [
   {
     categoria: "Pescados e Frutos do Mar",
@@ -83,11 +84,7 @@ const alimentosProteicos = [
   }
 ];
 
-];
-
-  // ...adicione o resto aqui
-];
-
+// ==== CARBOIDRATOS ====
 const alimentosCarboidratos = [
   {
     categoria: "Substituições Arroz Branco",
@@ -209,10 +206,7 @@ const alimentosCarboidratos = [
   }
 ];
 
-];
-
-  // ...adicione o resto aqui
-];
+// ==== GORDURAS ====
 const alimentosGorduras = [
   {
     categoria: "Laticínios",
@@ -246,12 +240,6 @@ const alimentosGorduras = [
       { nome: "Pão de queijo", gramas: 50, calorias: 150, tipo: "aceitavel" },
     ]
   }
-];
-
-];
-
-
-  // ...adicione o resto aqui
 ];
 
 export default function MacroCalculator() {
@@ -343,72 +331,74 @@ export default function MacroCalculator() {
             <p><strong>Dividido em {result.meals} refeições</strong></p>
           </div>
 
+          {/* PROTEÍNAS */}
           <div>
             <h3 className="text-lg font-semibold mt-4">Equivalentes em proteína por refeição:</h3>
-            <div className="space-y-2">
-             {/* Proteína */}
-{alimentosProteicos.map((grupo, idx) => (
-  <div key={idx} className="mb-2">
-    <h4 className="font-bold mt-3 mb-1 text-blue-700">{grupo.categoria}</h4>
-    <div className="space-y-1">
-      {grupo.alimentos.map((item, i) => {
-        const kcalProtPorRefeicao = (result.protein * 4) / result.meals;
-        const numPorcoes = kcalProtPorRefeicao / item.calorias;
-        const totalQuantidade = numPorcoes * item.gramas;
-        const unidade = item.nome.toLowerCase().includes('ovo') ? 'unidades' : 'g';
-        return (
-          <div key={i} className={`border p-2 rounded ${corClasse[item.tipo]}`}>
-            <strong>{item.nome}</strong>: {totalQuantidade.toFixed(0)} {unidade}
+            {alimentosProteicos.map((grupo, idx) => (
+              <div key={idx} className="mb-2">
+                <h4 className="font-bold mt-3 mb-1 text-blue-700">{grupo.categoria}</h4>
+                <div className="space-y-1">
+                  {grupo.alimentos.map((item, i) => {
+                    const kcalProtPorRefeicao = (result.protein * 4) / result.meals;
+                    const numPorcoes = kcalProtPorRefeicao / item.calorias;
+                    const totalQuantidade = numPorcoes * item.gramas;
+                    const unidade = item.nome.toLowerCase().includes('ovo') ? 'unidades' : 'g';
+                    return (
+                      <div key={i} className={`border p-2 rounded ${corClasse[item.tipo]}`}>
+                        <strong>{item.nome}</strong>: {totalQuantidade.toFixed(0)} {unidade}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
           </div>
-        )
-      })}
-    </div>
-  </div>
-))}
 
-
+          {/* CARBOIDRATOS */}
           <div>
             <h3 className="text-lg font-semibold mt-4">Equivalentes em carboidrato por refeição:</h3>
-            <div className="space-y-2">
-              {/* Carboidrato */}
-{alimentosCarboidratos.map((grupo, idx) => (
-  <div key={idx} className="mb-2">
-    <h4 className="font-bold mt-3 mb-1 text-blue-700">{grupo.categoria}</h4>
-    <div className="space-y-1">
-      {grupo.alimentos.map((item, i) => {
-        const kcalCarbPorRefeicao = (result.carbs * 4) / result.meals;
-        const numPorcoes = kcalCarbPorRefeicao / item.calorias;
-        const totalQuantidade = numPorcoes * item.gramas;
-        return (
-          <div key={i} className={`border p-2 rounded ${corClasse[item.tipo]}`}>
-            <strong>{item.nome}</strong>: {totalQuantidade.toFixed(0)} g
+            {alimentosCarboidratos.map((grupo, idx) => (
+              <div key={idx} className="mb-2">
+                <h4 className="font-bold mt-3 mb-1 text-blue-700">{grupo.categoria}</h4>
+                <div className="space-y-1">
+                  {grupo.alimentos.map((item, i) => {
+                    const kcalCarbPorRefeicao = (result.carbs * 4) / result.meals;
+                    const numPorcoes = kcalCarbPorRefeicao / item.calorias;
+                    const totalQuantidade = numPorcoes * item.gramas;
+                    return (
+                      <div key={i} className={`border p-2 rounded ${corClasse[item.tipo]}`}>
+                        <strong>{item.nome}</strong>: {totalQuantidade.toFixed(0)} g
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
           </div>
-        )
-      })}
-    </div>
-  </div>
-))}
 
-
+          {/* GORDURAS */}
           <div>
             <h3 className="text-lg font-semibold mt-4">Equivalentes em gordura por refeição:</h3>
-            <div className="space-y-2
-{/* Gordura */}
-{alimentosGorduras.map((grupo, idx) => (
-  <div key={idx} className="mb-2">
-    <h4 className="font-bold mt-3 mb-1 text-blue-700">{grupo.categoria}</h4>
-    <div className="space-y-1">
-      {grupo.alimentos.map((item, i) => {
-        const kcalFatPorRefeicao = (result.fat * 9) / result.meals;
-        const numPorcoes = kcalFatPorRefeicao / item.calorias;
-        const totalQuantidade = numPorcoes * item.gramas;
-        return (
-          <div key={i} className={`border p-2 rounded ${corClasse[item.tipo]}`}>
-            <strong>{item.nome}</strong>: {totalQuantidade.toFixed(0)} g
+            {alimentosGorduras.map((grupo, idx) => (
+              <div key={idx} className="mb-2">
+                <h4 className="font-bold mt-3 mb-1 text-blue-700">{grupo.categoria}</h4>
+                <div className="space-y-1">
+                  {grupo.alimentos.map((item, i) => {
+                    const kcalFatPorRefeicao = (result.fat * 9) / result.meals;
+                    const numPorcoes = kcalFatPorRefeicao / item.calorias;
+                    const totalQuantidade = numPorcoes * item.gramas;
+                    return (
+                      <div key={i} className={`border p-2 rounded ${corClasse[item.tipo]}`}>
+                        <strong>{item.nome}</strong>: {totalQuantidade.toFixed(0)} g
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
           </div>
-        )
-      })}
+        </div>
+      )}
     </div>
-  </div>
-))}
-
+  );
+}
