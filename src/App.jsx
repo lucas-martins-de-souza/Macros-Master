@@ -1,5 +1,6 @@
 import { useState } from "react"
 
+// Exemplo — adicione aqui toda sua lista real depois!
 const alimentosProteicos = [
   { nome: "Peito de frango", gramas: 100, calorias: 125, tipo: "excelente" },
   { nome: "Atum fresco, cru", gramas: 85, calorias: 125, tipo: "excelente" },
@@ -85,8 +86,9 @@ export default function MacroCalculator() {
     setResult({ tdee, protein, fat, carbs, meals: m });
   };
 
-  const calcularEquivalente = (gramasBase, macroPorRefeicao, macroBase) => {
-    return ((macroPorRefeicao / macroBase) * gramasBase).toFixed(0)
+  // Cálculo por calorias base
+  const calcularEquivalenteCal = (caloriasRef, caloriasBase, gramasBase) => {
+    return ((caloriasRef / caloriasBase) * gramasBase).toFixed(0)
   };
 
   const corClasse = {
@@ -133,35 +135,45 @@ export default function MacroCalculator() {
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold mt-4">Equivalentes em proteína por refeição (~{(result.protein / result.meals).toFixed(0)}g):</h3>
+            <h3 className="text-lg font-semibold mt-4">Equivalentes em proteína por refeição:</h3>
             <div className="space-y-2">
-              {alimentosProteicos.map((item, i) => (
-                <div key={i} className={`border p-2 rounded ${corClasse[item.tipo]}`}>
-                  <strong>{item.nome}</strong>: {calcularEquivalente(item.gramas, result.protein / result.meals, 48)}g
-                </div>
-              ))}
+              {alimentosProteicos.map((item, i) => {
+                // Quantidade de calorias de proteína por refeição
+                const kcalProtPorRefeicao = (result.protein * 4) / result.meals;
+                return (
+                  <div key={i} className={`border p-2 rounded ${corClasse[item.tipo]}`}>
+                    <strong>{item.nome}</strong>: {calcularEquivalenteCal(kcalProtPorRefeicao, item.calorias, item.gramas)}g
+                  </div>
+                );
+              })}
             </div>
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold mt-4">Equivalentes em carboidrato por refeição (~{(result.carbs / result.meals).toFixed(0)}g):</h3>
+            <h3 className="text-lg font-semibold mt-4">Equivalentes em carboidrato por refeição:</h3>
             <div className="space-y-2">
-              {alimentosCarboidratos.map((item, i) => (
-                <div key={i} className={`border p-2 rounded ${corClasse[item.tipo]}`}>
-                  <strong>{item.nome}</strong>: {calcularEquivalente(item.gramas, result.carbs / result.meals, 55)}g
-                </div>
-              ))}
+              {alimentosCarboidratos.map((item, i) => {
+                const kcalCarbPorRefeicao = (result.carbs * 4) / result.meals;
+                return (
+                  <div key={i} className={`border p-2 rounded ${corClasse[item.tipo]}`}>
+                    <strong>{item.nome}</strong>: {calcularEquivalenteCal(kcalCarbPorRefeicao, item.calorias, item.gramas)}g
+                  </div>
+                );
+              })}
             </div>
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold mt-4">Equivalentes em gordura por refeição (~{(result.fat / result.meals).toFixed(0)}g):</h3>
+            <h3 className="text-lg font-semibold mt-4">Equivalentes em gordura por refeição:</h3>
             <div className="space-y-2">
-              {alimentosGorduras.map((item, i) => (
-                <div key={i} className={`border p-2 rounded ${corClasse[item.tipo]}`}>
-                  <strong>{item.nome}</strong>: {calcularEquivalente(item.gramas, result.fat / result.meals, 25)}g
-                </div>
-              ))}
+              {alimentosGorduras.map((item, i) => {
+                const kcalFatPorRefeicao = (result.fat * 9) / result.meals;
+                return (
+                  <div key={i} className={`border p-2 rounded ${corClasse[item.tipo]}`}>
+                    <strong>{item.nome}</strong>: {calcularEquivalenteCal(kcalFatPorRefeicao, item.calorias, item.gramas)}g
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
